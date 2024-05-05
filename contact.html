@@ -38,7 +38,7 @@
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.open('login')">Log In</button>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.logout()">Log Out</button>
   </nav>
-  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addContactModal">
+  <!-- <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addContactModal">
     Add Contact
   </button>
 
@@ -134,9 +134,105 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
  
+
+<div class="container">
+  <header>
+      <h1>Contacts</h1>
+  </header>
+  <section>
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Contact Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody id="contactList">
+              <!-- Contact list will be dynamically populated here -->
+          </tbody>
+      </table>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContactModal">
+          Add Contact
+      </button>
+  </section>
+</div>
+
+<!-- Add Contact Modal -->
+<div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="addContactModalLabel">Add Contact</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="addContactForm">
+                  <div class="form-group">
+                      <label for="firstName">First Name</label>
+                      <input type="text" class="form-control" id="firstName" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="lastName">Last Name</label>
+                      <input type="text" class="form-control" id="lastName" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="phone">Phone</label>
+                      <input type="tel" class="form-control" id="phone">
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="addContactBtn">Submit</button> <!-- Added ID to the submit button -->
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Edit Contact Modal -->
+<div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editContactModalLabel">Edit Contact</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="editContactForm">
+                  <input type="hidden" id="editContactId">
+                  <div class="form-group">
+                      <label for="editFirstName">First Name</label>
+                      <input type="text" class="form-control" id="editFirstName" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="editLastName">Last Name</label>
+                      <input type="text" class="form-control" id="editLastName" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="editEmail">Email</label>
+                      <input type="email" class="form-control" id="editEmail" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="editPhone">Phone</label>
+                      <input type="tel" class="form-control" id="editPhone">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
 
 
 
@@ -146,3 +242,12 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+

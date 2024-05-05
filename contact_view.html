@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Details</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- 
+
   <style>
-   
-  
     body {
-      background-color: #6a7e92;;
+      background-color: #6a7e92;
+      ;
     }
+
     h1 {
       color: #00ff55;
     }
   </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">CRM </a>
@@ -35,59 +37,49 @@
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.open('login')">Log In</button>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.logout()">Log Out</button>
   </nav>
-
-  <div class="container mt-5">
-    <h1>Contact Details</h1>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">John Doe</h5>
-        <p class="card-text"><strong>Email:</strong> johndoe@example.com</p>
-        <p class="card-text"><strong>Phone:</strong> 123-456-7890</p>
-        <hr>
-        <h5 class="card-title">Notes</h5>
-        <ul class="list-group">
-          <li class="list-group-item">Note 1 <button class="btn btn-info btn-sm float-right">Edit</button><button class="btn btn-danger btn-sm float-right mr-2">Delete</button></li>
-          <li class="list-group-item">Note 2 <button class="btn btn-info btn-sm float-right">Edit</button><button class="btn btn-danger btn-sm float-right mr-2">Delete</button></li>
-        </ul>
-    
-        <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#addNoteModal">Add Note</button>
-      </div>
-    </div>
+  <div class="container">
+    <header>
+      <h1>Contact Details</h1>
+    </header>
+    <section>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="contactId">ID</label>
+          <input type="text" class="form-control" id="contactId" disabled>
+        </div>
+        <div class="form-group">
+          <label for="contactName">Contact Name</label>
+          <input type="text" class="form-control" id="contactName">
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">Email</label>
+          <input type="email" class="form-control" id="contactEmail">
+        </div>
+        <div class="form-group">
+          <label for="contactPhone">Phone</label>
+          <input type="tel" class="form-control" id="contactPhone">
+        </div>
+        <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+      </form>
+    </section>
+    <section>
+      <h2>Notes</h2>
+      <ul>
+        <li>Note 1</li>
+        <li>Note 2</li>
+        <li>Note 3</li>
+      </ul>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoteModal">
+        Add Note
+      </button>
+    </section>
   </div>
 
-
- 
-
-
-<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addNoteModalLabel">Add New Note</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="addNoteForm">
-          <div class="form-group">
-            <label for="noteContent">Note</label>
-            <textarea class="form-control" id="noteContent" rows="3" required></textarea>
-          </div>
-        
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="addNote()">Save Note</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
