@@ -108,7 +108,7 @@
         // Function to fetch contacts from the serverless function
         const fetchContacts = async () => {
             try {
-                const response = await fetch('/.netlify/functions/contact_read');
+                const response = await fetch('/.netlify/functions/readcontact');
                 if (!response.ok) {
                     throw new Error('Failed to fetch contacts');
                 }
@@ -146,7 +146,7 @@
         // Function to handle contact deletion
         const deleteContact = async (id) => {
             try {
-                const response = await fetch(`/.netlify/functions/contact_delete?id=${id}`, {
+                const response = await fetch(`/.netlify/functions/deletecontact?id=${id}`, {
                     method: 'DELETE'
                 });
 
@@ -175,7 +175,7 @@
             
             // Make POST request to serverless function
             try {
-                const response = await fetch('/.netlify/functions/contact_create', {
+                const response = await fetch('/.netlify/functions/createcontact', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
