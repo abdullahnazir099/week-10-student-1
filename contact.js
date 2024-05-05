@@ -1,5 +1,5 @@
 function showContacts() {
-    fetch('/.netlify/functions/allContacts')
+    fetch('/.netlify/functions/allcontacts')
         .then(response => response.json())
         .then(contacts => {
             const contactsContainer = document.getElementById('contacts-container');
@@ -28,7 +28,7 @@ function addContact() {
     const phone = document.getElementById('phone').value;
     const category = document.getElementById('category').value;
 
-    fetch('/.netlify/functions/createContact', {
+    fetch('/.netlify/functions/createcontact', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function addContact() {
 
 async function openEditModal(contactId) {
     try {
-        const response = await fetch(`/.netlify/functions/readContact?id=${contactId}`);
+        const response = await fetch(`/.netlify/functions/readcontact?id=${contactId}`);
         const contact = await response.json();
 
         document.getElementById('editContactId').value = contact.id;
@@ -70,7 +70,7 @@ function updateContact() {
     const phone = document.getElementById('editPhone').value;
     const category = document.getElementById('editCategory').value;
 
-    fetch('/.netlify/functions/updateContact', {
+    fetch('/.netlify/functions/updatecontact', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function updateContact() {
 
 function confirmDelete(contactId) {
     if (confirm('Are you sure you want to delete this contact?')) {
-        fetch(`/.netlify/functions/deleteContact?id=${contactId}`, {
+        fetch(`/.netlify/functions/deletecontact?id=${contactId}`, {
             method: 'DELETE',
         })
         .then(response => {
