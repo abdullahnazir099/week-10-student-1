@@ -7,10 +7,10 @@ exports.handler = async (event, context) => {
 
     // Parse the request body to extract contact data
     const requestBody = JSON.parse(event.body);
-    const { first_name, last_name, email, phone, category_id } = requestBody;
+    const { first_name, last_name, email, phone } = requestBody;
 
     // Validate required fields
-    if (!first_name || !last_name || !email || !phone || !category_id) {
+    if (!first_name || !last_name || !email || !phone ) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing required parameters (first_name, last_name, email, phone, category_id).' }),
@@ -26,10 +26,10 @@ exports.handler = async (event, context) => {
     });
 
     // Define the SQL query to insert a new contact
-    const query = 'INSERT INTO contacts (first_name, last_name, email, phone, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
+    const query = 'INSERT INTO contacts (first_name, last_name, email, phone) VALUES (?, ?, ?, ?)';
 
     // Execute the query with the contact data
-    await connection.execute(query, [first_name, last_name, email, phone, category_id]);
+    await connection.execute(query, [first_name, last_name, email, phone]);
 
     // Close the database connection
     await connection.end();
