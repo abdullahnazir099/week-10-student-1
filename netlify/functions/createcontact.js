@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 exports.handler = async (event, context) => {
  
   try {
-    const  { first_name, last_name, email, phone, category_id }  = JSON.parse(event.body);
+    const  { first_name, last_name, email, phone }  = JSON.parse(event.body);
  
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
@@ -12,8 +12,8 @@ exports.handler = async (event, context) => {
       database: process.env.DB_NAME
     });
 
-    const sql =  'INSERT INTO contacts (first_name, last_name, email, phone, category_id) VALUES (?, ?, ?, ?, ?)';
-    await connection.execute(sql, [first_name, last_name, email, phone, category_id] );
+    const sql =  'INSERT INTO contacts (first_name, last_name, email, phone) VALUES (?, ?, ?, ?)';
+    await connection.execute(sql, [first_name, last_name, email, phone] );
     await connection.end();
 
     return {
