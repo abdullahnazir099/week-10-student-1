@@ -7,7 +7,7 @@
   <title>Contact Details</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     body {
       background-color: #6a7e92;
@@ -62,19 +62,36 @@
         <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
       </form>
     </section>
-    <section>
-      <h2>Notes</h2>
-      <ul>
-        <li>Note 1</li>
-        <li>Note 2</li>
-        <li>Note 3</li>
-      </ul>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNoteModal">
-        Add Note
-      </button>
-    </section>
+   
   </div>
+  <script>
+    if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", () => {
+            const user = netlifyIdentity.currentUser();
+            console.log('Netlify Identity initial user state:', user);
 
+            if (!user) {
+                console.log('No user found, opening login modal');
+                netlifyIdentity.open("login"); 
+            } else {
+            
+                console.log('User found:', user);
+               
+            }
+            netlifyIdentity.on("login", (user) => {
+                console.log('User logged in', user);
+                netlifyIdentity.close();
+               
+            });
+            netlifyIdentity.on("logout", () => {
+                console.log('User logged out');
+                document.location.href = "/contact_view.html";
+            });
+        });
+    } else {
+        console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
+    }
+</script>
 
 
 
