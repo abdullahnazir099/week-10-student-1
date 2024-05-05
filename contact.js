@@ -108,7 +108,7 @@
         // Function to fetch contacts from the serverless function
         const fetchContacts = async () => {
             try {
-                const response = await fetch('/.netlify/functions/readcontact');
+                const response = await fetch('/.netlify/functions/allcontacts');
                 if (!response.ok) {
                     throw new Error('Failed to fetch contacts');
                 }
