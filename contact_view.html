@@ -84,34 +84,7 @@
     </div>
   </div>
 </div>
-<script>
-  if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", () => {
-          const user = netlifyIdentity.currentUser();
-          console.log('Netlify Identity initial user state:', user);
 
-          if (!user) {
-              console.log('No user found, opening login modal');
-              netlifyIdentity.open("login"); 
-          } else {
-          
-              console.log('User found:', user);
-              
-          }
-          netlifyIdentity.on("login", (user) => {
-              console.log('User logged in', user);
-              netlifyIdentity.close();
-             
-          });
-          netlifyIdentity.on("logout", () => {
-              console.log('User logged out');
-              document.location.href = "/contact_view.html";
-          });
-      });
-  } else {
-      console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
-  }
-</script>
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

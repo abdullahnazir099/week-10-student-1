@@ -38,39 +38,17 @@
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.open('login')">Log In</button>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.logout()">Log Out</button>
   </nav>
+  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addContactModal">
+    Add Contact
+  </button>
 
-  <div class="container mt-5">
-    <h1>Contacts</h1>
-
-
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="contacts">
-
-        <tr>
-          <td>John Doe</td>
-          <td>johndoe@example.com</td>
-          <td>123-456-7890</td>
-          <td>
-            <a button class="btn btn-primary btn-sm " href="contact_view.html">view</a>
-            <button class="btn btn-danger btn-sm">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container mt-4">
 
 
-
-
-    <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#addContactModal">Add Contact</button>
+    <div id="contacts-container"></div>
   </div>
+
+
 
   <div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel"
     aria-hidden="true">
@@ -85,14 +63,25 @@
         <div class="modal-body">
           <form id="addContactForm">
             <div class="form-group">
-              <label for="contactName">Name</label>
-              <input type="text" class="form-control" id="contactName" required>
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" required>
             </div>
             <div class="form-group">
-              <label for="contactEmail">Email</label>
-              <input type="email" class="form-control" id="contactEmail" required>
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" required>
             </div>
-
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" class="form-control" id="phone">
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <input type="text" class="form-control" id="category" required>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -102,34 +91,52 @@
       </div>
     </div>
   </div>
-  <script>
-    if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", () => {
-            const user = netlifyIdentity.currentUser();
-            console.log('Netlify Identity initial user state:', user);
 
-            if (!user) {
-                console.log('No user found, opening login modal');
-                netlifyIdentity.open("login"); 
-            } else {
-            
-                console.log('User found:', user);
-                
-            }
-            netlifyIdentity.on("login", (user) => {
-                console.log('User logged in', user);
-                netlifyIdentity.close();
-               
-            });
-            netlifyIdentity.on("logout", () => {
-                console.log('User logged out');
-                document.location.href = "/contact.html";
-            });
-        });
-    } else {
-        console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
-    }
-</script>
+
+  <div class="modal fade" id="editContactModal" tabindex="-1" role="dialog" aria-labelledby="editContactModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editContactModalLabel">Edit Contact</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editContactForm">
+            <input type="hidden" id="editContactId">
+            <div class="form-group">
+              <label for="editFirstName">First Name</label>
+              <input type="text" class="form-control" id="editFirstName" required>
+            </div>
+            <div class="form-group">
+              <label for="editLastName">Last Name</label>
+              <input type="text" class="form-control" id="editLastName" required>
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Email</label>
+              <input type="email" class="form-control" id="editEmail" required>
+            </div>
+            <div class="form-group">
+              <label for="editPhone">Phone</label>
+              <input type="text" class="form-control" id="editPhone">
+            </div>
+            <div class="form-group">
+              <label for="editCategory">Category</label>
+              <input type="text" class="form-control" id="editCategory" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateContact()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
 
 
 
