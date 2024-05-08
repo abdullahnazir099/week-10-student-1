@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "error to delete contact." }),
+      body: JSON.stringify({ error: "error to delete contact.",  message: error.message }),
     };
   }
 };

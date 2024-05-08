@@ -62,37 +62,97 @@
         <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
       </form>
     </section>
-   
+
   </div>
   <script>
     if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", () => {
-            const user = netlifyIdentity.currentUser();
-            console.log('Netlify Identity initial user state:', user);
+      window.netlifyIdentity.on("init", () => {
+        const user = netlifyIdentity.currentUser();
+        console.log('Netlify Identity initial user state:', user);
 
-            if (!user) {
-                console.log('No user found, opening login modal');
-                netlifyIdentity.open("login"); 
-            } else {
-            
-                console.log('User found:', user);
-               
-            }
-            netlifyIdentity.on("login", (user) => {
-                console.log('User logged in', user);
-                netlifyIdentity.close();
-               
-            });
-            netlifyIdentity.on("logout", () => {
-                console.log('User logged out');
-                document.location.href = "/contact_view.html";
-            });
+        if (!user) {
+          console.log('No user found, opening login modal');
+          netlifyIdentity.open("login");
+        } else {
+
+          console.log('User found:', user);
+
+        }
+        netlifyIdentity.on("login", (user) => {
+          console.log('User logged in', user);
+          netlifyIdentity.close();
+
         });
+        netlifyIdentity.on("logout", () => {
+          console.log('User logged out');
+          document.location.href = "/contact_view.html";
+        });
+      });
     } else {
-        console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
+      console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
     }
-</script>
+  </script>
+  <script>
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const contactId = urlParams.get('id');
+
+
+    const fetchContact = async () => {
+      try {
+        const response = await fetch(`/.netlify/functions/contact_read?id=${contactId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch contact');
+        }
+        const data = await response.json();
+
+        document.getElementById('contactId').value = data.id;
+        document.getElementById('contactName').value = data.first_name + ' ' + data.last_name;
+        document.getElementById('contactEmail').value = data.email;
+        document.getElementById('contactPhone').value = data.phone;
+      } catch (error) {
+        console.error('Error fetching contact:', error);
+      }
+    };
+
+
+    window.onload = fetchContact;
+
+
+    const updateContact = async (event) => {
+      event.preventDefault();
+
+      const contactName = document.getElementById('contactName').value;
+      const [firstName, lastName] = contactName.split(' ');
+      const email = document.getElementById('contactEmail').value;
+      const phone = document.getElementById('contactPhone').value;
+
+      try {
+        const response = await fetch('/.netlify/functions/updatecontact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: contactId, firstName, lastName, email, phone }),
+        });
+
+        if (response.ok) {
+          alert('Contact updated successfully!');
+
+          window.location.href = 'contacts.html';
+        } else {
+          throw new Error('Failed to update contact');
+        }
+      } catch (error) {
+        console.error('Error:', error.message);
+        alert('Failed to update contact. Please try again.');
+      }
+    };
+
+
+    document.getElementById('saveChangesBtn').addEventListener('click', updateContact);
+
+  </script>
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

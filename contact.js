@@ -7,7 +7,7 @@ const fetchContacts = async () => {
             throw new Error('Failed to fetch contacts');
         }
         const data = await response.json();
-        console.log('Fetched data:', data); // Debugging line
+        console.log('Fetched data:', data); 
 
         return Array.isArray(data) ? data : [];
     } catch (error) {

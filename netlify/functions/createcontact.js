@@ -23,7 +23,10 @@ exports.handler = async (event, context) => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to create contact." }),
+      body: JSON.stringify({ error: "Failed to create contact.",  message: error.message }),
     };
   }
+
+
+
 };
