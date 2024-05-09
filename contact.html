@@ -97,7 +97,7 @@
                             <input type="tel" class="form-control" id="phone">
                         </div>
                         <button type="submit" class="btn btn-primary" id="addContactBtn">Submit</button>
-                        <!-- Added ID to the submit button -->
+                      
                     </form>
                 </div>
             </div>
@@ -170,7 +170,6 @@
     </script>
     <script>
 
-
         const fetchContacts = async () => {
             try {
                 const response = await fetch('/.netlify/functions/readcontact');
@@ -231,8 +230,8 @@
             event.preventDefault();
 
 
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
+            const first_name = document.getElementById('firstName').value;
+            const last_name = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
 

@@ -26,7 +26,4 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: "Failed to create contact.",  message: error.message }),
     };
   }
-
-
-
 };
