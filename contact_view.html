@@ -33,6 +33,9 @@
       <li class="nav-item active">
         <a class="nav-link" href="contact.html">Contacts</a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="notes.html">Notes</a>
+      </li>
     </ul>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.open('login')">Log In</button>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.logout()">Log Out</button>
@@ -65,7 +68,7 @@
                     <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
                     <p><strong>Email:</strong> ${contact.email}</p>
                     <p><strong>Phone:</strong> ${contact.phone}</p>
-                    <p><strong>Category:</strong> ${contact.category}</p>
+
                 `;
             })
             .catch(error => console.error('Error fetching contact:', error));
