@@ -3,17 +3,10 @@ const mysql = require('mysql2/promise');
 exports.handler = async (event, context) => {
   try {
 
-
-    const requestBody = JSON.parse(event.body);
-    const { contact_id, note } = requestBody;
+   
 
   
-    if (!contact_id || !note) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required parameters (contact_id, note).' }),
-      };
-    }
+    const  { contact_id, note}  = JSON.parse(event.body);
 
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
@@ -21,15 +14,11 @@ exports.handler = async (event, context) => {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME
     });
-
-   
-    const query = 'INSERT INTO notes (contact_id, note) VALUES (?, ?)';
-
-
-    const [result] = await connection.execute(query, [contact_id, note]);
-
-    
+    const sql =  'INSERT INTO notes (contact_id, note) VALUES (?, ?)';
+    await connection.execute(sql, [contact_id, note] );
     await connection.end();
+   
+   
 
     
     if (result.affectedRows !== 1) {
