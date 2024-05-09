@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
       database: process.env.DB_NAME
     });
 
-    const sql = 'DELETE FROM contact WHERE id = ?';
+    const sql = 'DELETE FROM contacts WHERE id = ?';
     await connection.execute(sql, [id]);
     await connection.end();
 
