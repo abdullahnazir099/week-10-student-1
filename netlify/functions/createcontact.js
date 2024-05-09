@@ -15,7 +15,9 @@ exports.handler = async (event, context) => {
     const sql =  'INSERT INTO contacts (first_name, last_name, email, phone) VALUES (?, ?, ?, ?)';
     await connection.execute(sql, [first_name, last_name, email, phone] );
     await connection.end();
-    console.log('event body: ', event.body)
+
+    console.log('event body:', event.body)
+    
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "contact created successfully" }),
