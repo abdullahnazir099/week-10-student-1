@@ -37,126 +37,70 @@
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.open('login')">Log In</button>
     <button onclick="window.netlifyIdentity && window.netlifyIdentity.logout()">Log Out</button>
   </nav>
-  <div class="container">
-    <header>
-      <h1>Contact Details</h1>
-    </header>
-    <section>
-      <form id="contactForm">
-        <div class="form-group">
-          <label for="contactId">ID</label>
-          <input type="text" class="form-control" id="contactId" disabled>
-        </div>
-        <div class="form-group">
-          <label for="contactName">Contact Name</label>
-          <input type="text" class="form-control" id="contactName">
-        </div>
-        <div class="form-group">
-          <label for="contactEmail">Email</label>
-          <input type="email" class="form-control" id="contactEmail">
-        </div>
-        <div class="form-group">
-          <label for="contactPhone">Phone</label>
-          <input type="tel" class="form-control" id="contactPhone">
-        </div>
-        <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
-      </form>
-    </section>
+  
+  <div class="container mt-5">
+    <h2>Contact Details</h2>
+    <div id="contactDetails"></div> 
+    <h3>Notes</h3>
+    <ul id="contactNotes"></ul>
+</div>
 
-  </div>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", () => {
-        const user = netlifyIdentity.currentUser();
-        console.log('Netlify Identity initial user state:', user);
 
-        if (!user) {
-          console.log('No user found, opening login modal');
-          netlifyIdentity.open("login");
-        } else {
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const contactId = urlParams.get('id');
+        fetchContact(contactId);
+    });
 
-          console.log('User found:', user);
-
-        }
-        netlifyIdentity.on("login", (user) => {
-          console.log('User logged in', user);
-          netlifyIdentity.close();
-
-        });
-        netlifyIdentity.on("logout", () => {
-          console.log('User logged out');
-          document.location.href = "/contact_view.html";
-        });
-      });
-    } else {
-      console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
+    function fetchContact(contactId) {
+        fetch(`/.netlify/functions/single_contact_read?id=${contactId}`)
+            .then(response => response.json())
+            .then(contact => {
+                const contactDetails = document.getElementById('contactDetails');
+                contactDetails.innerHTML = `
+                    <p><strong>Name:</strong> ${contact.first_name} ${contact.last_name}</p>
+                    <p><strong>Email:</strong> ${contact.email}</p>
+                    <p><strong>Phone:</strong> ${contact.phone}</p>
+                    <p><strong>Category:</strong> ${contact.category}</p>
+                `;
+            })
+            .catch(error => console.error('Error fetching contact:', error));
     }
-  </script>
-  <script>
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const contactId = urlParams.get('id');
 
 
-    const fetchContact = async () => {
-      try {
-        const response = await fetch(`/.netlify/functions/contact_read?id=${contactId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch contact');
-        }
-        const data = await response.json();
+    if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", () => {
+            const user = netlifyIdentity.currentUser();
+            console.log('Netlify Identity initial user state:', user);
+            
+            if (!user) {
+                console.log('No user found, opening login modal');
+                netlifyIdentity.open("login"); 
+            } else {
 
-        document.getElementById('contactId').value = data.id;
-        document.getElementById('contactName').value = data.first_name + ' ' + data.last_name;
-        document.getElementById('contactEmail').value = data.email;
-        document.getElementById('contactPhone').value = data.phone;
-      } catch (error) {
-        console.error('Error fetching contact:', error);
-      }
-    };
+                console.log('User found:', user);
 
+            }
 
-    window.onload = fetchContact;
+            netlifyIdentity.on("login", (user) => {
+                console.log('User logged in', user);
+                netlifyIdentity.close();
+            });
 
-
-    const updateContact = async (event) => {
-      event.preventDefault();
-
-      const contactName = document.getElementById('contactName').value;
-      const [firstName, lastName] = contactName.split(' ');
-      const email = document.getElementById('contactEmail').value;
-      const phone = document.getElementById('contactPhone').value;
-
-      try {
-        const response = await fetch('/.netlify/functions/updatecontact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: contactId, firstName, lastName, email, phone }),
+            netlifyIdentity.on("logout", () => {
+                console.log('User logged out');
+                document.location.href = "/contact_view.html";
+            });
         });
+    } else {
+        console.error('Netlify Identity script not found. Ensure it is loaded before this script.');
+    }
+</script>
 
-        if (response.ok) {
-          alert('Contact updated successfully!');
-
-          window.location.href = 'contacts.html';
-        } else {
-          throw new Error('Failed to update contact');
-        }
-      } catch (error) {
-        console.error('Error:', error.message);
-        alert('Failed to update contact. Please try again.');
-      }
-    };
-
-
-    document.getElementById('saveChangesBtn').addEventListener('click', updateContact);
-
-  </script>
-
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
