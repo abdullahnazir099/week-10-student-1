@@ -132,45 +132,42 @@
                 .catch(error => console.error('Error fetching notes:', error));
          
         }
-
-        function saveNote() {
-            const noteContent = document.getElementById('noteContent').value;
-            const contactId = document.getElementById('contactId').value; 
-
-          
-
-           
-                fetch('/.netlify/functions/createnote', {
+        const saveNote = async (event) => {
+            event.preventDefault();
+        
+            const note = document.getElementById('noteContent').value;
+            const contact_id = document.getElementById('contactId').value; 
+            try {
+              
+                const response = await fetch('/.netlify/functions/creatnote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                       
                     },
-                    body: JSON.stringify({
-                        contact_id: contactId,
-                        note: noteContent
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to create note');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Note created successfully:', data);
-                    $('#addNoteModal').modal('hide'); 
-                    fetchNotes(); 
-                })
-                .catch(error => {
-                    console.error('Error creating note:', error);
-                    alert('Failed to create note. Please try again.');
+                    body: JSON.stringify({ contact_id,note }),
                 });
 
+                if (response.ok) {
+                    alert('note created successfully!');
 
+                  
+                   
+                    $('#addNoteModal').modal('hide'); 
+                    fetchNotes(); 
+                } else {
+                    throw new Error('Failed to create note');
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Failed to create contact. Please try again.');
+                
+            }
                 
            
         }
+
+
+
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
